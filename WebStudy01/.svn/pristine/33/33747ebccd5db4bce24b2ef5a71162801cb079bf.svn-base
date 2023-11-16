@@ -25,15 +25,6 @@ import javax.servlet.http.HttpServletResponse;
  * 3. 서블릿 등록. web.xml : servlet -> servlet-name(simple name), servlet-class(qualified name) 
  * 4. 서블릿 매핑. web.xml : servlet-mapping -> servlet-name, url-pattern
  * 5. 서버 재구동(서버는 실행될 때 한번 web.xml파일을 스캔하기 때문)
- * 
- * ** 서블릿 스펙에서 제공되는 객체의 종류
- * 1. HttpServletRequest  : client와 요청에 대한 정보를 캡슐화한 객체
- * 2. HttpServletResponse : server에서 client로 전송하는 응답에 대한 정보를 캡슐화한 객체
- * 							ex) response content, content metadata(response header)
- * 3. ServletConfig 	  : 하나의 서블릿에 대한 설정 정보를 캡슐화한 객체. 서블릿 하나당 하나씩 인스턴스가 존재함
- * 4. ServletContext	  : 현재 실행 중인 어플리케이션과 서버에 대한 정보를 캡슐화한 객체로, 어플리케이션 내에 하나의 인스턴스만 존재함. was(서버)에 대한 객체
- * 5. HttpSession 		  : 한 사람의 클라이언트 혹은 하나의 에이전트(브라우저)에 대한 고유 정보를 캡슐화한 객체. 
- * 							ex) 한 사람의 클라이언트일지라도 여러개의 브라우저를 사용하여 접속한다면 사용한 브라우저의 개수만큼 세션이 생성됨
  */
 public class DescriptionServlet extends HttpServlet {
 	@Override

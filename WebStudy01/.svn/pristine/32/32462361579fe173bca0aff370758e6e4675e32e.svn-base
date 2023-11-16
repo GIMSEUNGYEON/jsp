@@ -1,0 +1,20 @@
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>Insert title here</title>
+<style>
+	form{
+		background-color: yellow;
+	}
+</style>
+</head>
+
+<body>
+	<form action="#cPath#/image.do">
+		<select name='image'>
+			#options#
+		</select>
+	<input type='submit' value='전송'/>
+	</form>
+</body>
+</html>
