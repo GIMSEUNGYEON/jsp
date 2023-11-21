@@ -1,4 +1,4 @@
-package kr.or.ddit.servlet02;
+package kr.or.ddit.servlet03;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,9 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 
  */
-@WebServlet("/case3/imageForm.do")
-//, initParams = {@WebInitParam(name = "imageFolderPath", value = "D:/01.medias/img")})
-public class ImageFormServlet_Case3 extends HttpServlet {
+@WebServlet("/case4/imageForm.do")
+public class ImageFormServlet_Case4 extends HttpServlet {
 	
 	private ServletContext application;
 	
@@ -58,6 +57,6 @@ public class ImageFormServlet_Case3 extends HttpServlet {
 		
 		resp.setContentType("text/html;charset=UTF-8");
 		
-		req.getRequestDispatcher("/01/imageForm_mine.c41").forward(req, resp);
+		req.getRequestDispatcher("/02/imageForm.jsp").forward(req, resp);
 	}
 }
