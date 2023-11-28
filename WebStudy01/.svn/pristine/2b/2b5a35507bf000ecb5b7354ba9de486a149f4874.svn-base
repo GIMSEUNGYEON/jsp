@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../resources/js/jquery-3.7.1.min.js">
+    </script>
+</head>
+<body>
+    <button data-role="xhr">XHR</button>
+    <button data-role="ajax">AJAX</button>
+    <button data-role="fetch">FETCH</button>
+    
+    <button onclick="innerBody.innerHTML='';">CLEAR</button>
+    <span id="loadingArea" style="display:none;">
+        <img src="../resources/images/loading.gif"/>
+
+    </span>
+    <div id="innerBody">
+
+
+    </div>
+    <script>
+    	let settings = {
+        	url:"../02/standard.jsp",
+        	method:"GET",
+        	dataType:"html", //request Accept header
+			beforeSend:function(){
+				loadingArea.style.display = "block";
+			},
+        	success:function(resp){
+				innerBody.innerHTML = resp;
+			},
+			error:function(jqXHR,textStatus, err){
+				innerBody.innerHTML = jqXHR.responseText;
+				
+			},
+			complete:function(){
+				loadingArea.style.display = "none";
+			}
+    	}
+        let fnOwner = {
+            fn_xhr : function(){
+                console.log("XMLHttpRequest case")
+                //1. XMLHttpRequest case
+                // request line : URL, method
+                // request header : name/value
+                // request body(only post) : parameter(form-data)
+                
+                // 1)XMLHttpRequest 객체 생성
+                let xhr = new XMLHttpRequest();
+                // UNSENT -> OPENED -> HEADER-RECEIVE -> LOADING -> DONE
+                // 레디 스테이트 체인지
+                xhr.onreadystatechange = function(event){
+                    // console.log(this.readyState); //여기서 this xhr
+                    if(this.readyState < XMLHttpRequest.DONE){
+						settings.beforeSend();
+                    }else{ // 요청이 성공하고 DONE 이후, ajax로 따지자면 success 부분
+                        if(this.status == 200){
+							settings.success(this.responseText);
+                        }else{
+							settings.error(this, this.status, `상태코드 ${this.status} 에러`);
+                        }
+                        console.log(this.response);
+						settings.complete();
+                    }
+
+
+                }
+                // 2) request line 결정 : open
+                xhr.open(settings.method, settings.url);
+                // 3) request header : setRequestHeader
+                xhr.setRequestHeader("accept", "text/html");
+                // 4) request body : send
+                xhr.send();
+
+            },
+            fn_ajax : function(){
+                console.log("ajax case")
+		        //2. $.ajax case
+                $.ajax(settings)
+            },
+        //3. fetch case
+            fn_fetch : function(){
+                console.log("fetch case")
+                let fetchPromise = fetch(settings.url,{
+                                        method:settings.method,
+                                        headers:{
+                                            "accept":"text/html"
+                                        } 
+                                    });
+                fetchPromise.then(resp=>{
+                    console.log(resp);
+	               	settings.beforeSend();
+                    if(resp.ok){
+                        return resp.text();
+                        // resp.text().then
+                        resp.json()
+                    }else{
+                        throw new Error(`상태코드 에러${resp.status}`, {cause:resp});
+                    }
+
+                }).then(text=>{                    
+                	settings.success(text)
+                })    
+                .catch(err=>{
+                    console.error(err);
+                    let resp = err.cause;
+                    resp.text().then(ep=>{
+                    settings.error({responseText:ep});
+                    });
+                })
+                .finally(()=>{
+                	settings.complete();
+                });
+            }
+        } 
+
+        document.querySelectorAll("[data-role]").forEach((el, idx)=>{
+            el.addEventListener("click", (event)=>{
+                console.log(event.target.dataset.role)
+                console.log(event.target.dataset['role'])
+
+                //위 두 문장은 같은 객체를 가리킴
+                // this//화살표 함수에서의 this는 윈도우 객체
+                let role = event.target.dataset['role']
+                //연산 배열 구조
+                fnOwner[`fn_${role}`]();
+                // fnOwner.fn_xhr();
+            });
+            
+        });
+        //4. XMLHttpRequest case
+        let samplePromise = new Promise((resolve, reject)=>{
+            setTimeout(()=>{
+            let tmpNum = Math.random()
+            if(tmpNum>0.5){
+                resolve(`생성된 난수 ${tmpNum}`);
+
+            }else{
+                reject(new Error(`생성된 난수 ${tmpNum}`));
+            }
+            }, 3000);
+
+        });
+        
+        samplePromise.then((msg)=>{
+            console.log(msg)
+        }) //이 펑션이 resolve
+        .catch(err=>{
+            console.error(err);
+        })
+		.finally(()=>{
+		});
+		
+		
+        console.log("이 메시지가 언제 출력될까?");
+
+        //catch가 reject ( 의도적 에러 발생 )
+
+    </script>
+</body>
+</html>

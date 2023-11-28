@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-//@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class Java8TimeAPITest2 {
 
 	@Test
@@ -64,7 +64,6 @@ class Java8TimeAPITest2 {
 		
 		Locale locale = Locale.forLanguageTag(Locale.CANADA.toLanguageTag());
 		
-		System.out.println(locale + "locale");
 		Stream.of(Locale.getAvailableLocales())
 			.forEach(l->{
 				System.out.println(dayOfWeek.getDisplayName(TextStyle.FULL,l));				
