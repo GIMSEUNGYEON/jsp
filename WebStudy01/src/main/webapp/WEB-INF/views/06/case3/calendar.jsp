@@ -1,4 +1,4 @@
-<%@page import="kr.or.ddit.CalendarVO"%>
+<%@page import="kr.or.ddit.vo.CalendarVO"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="java.util.stream.Collectors"%>
 <%@page import="java.util.stream.Collector"%>

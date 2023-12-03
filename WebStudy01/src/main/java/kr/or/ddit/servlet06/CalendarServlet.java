@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import kr.or.ddit.CalendarVO;
+import kr.or.ddit.vo.CalendarVO;
 /**
  * Model2 + MVC
  *	servlet (Model + Controller : request 처리자)

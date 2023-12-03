@@ -33,7 +33,6 @@
 		%>
 
 
-	</select>
 	<select name="locale" data-init-value="<%=locale.toLanguageTag()%>">
 		<option value>지역 선택</option>
 		

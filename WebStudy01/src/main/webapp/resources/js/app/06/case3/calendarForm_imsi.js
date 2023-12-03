@@ -1,48 +1,43 @@
 $(function(){
-   let $inputs=$(calForm).find(":input[name]")
-   $inputs.each((idx, el)=>{
-      let $el=$(el)
-      let name=$el.attr("name");
-      let initValue = $el.data("initValue");
-      $el.val(initValue)
-   }).on("change",function(event){
-      $(this.form).submit();
-   })
-   
-   $(document).on("click", ".control-a" ,function(event){
-      let $el=$(this);
-      $(calForm).find("[name=year]").val($el.data("year"));
-      $(calForm).find("[name=month]").val($el.data("month"));
-        $(calForm).submit();
-   })
-   
-   let $calForm=$(calForm).on("submit",function(event){
-     event.preventDefault();
-     //$(this)==$calForm
-      let url = this.action;
-      let method = $(this).attr("method");
-      let queryString=$(this).serialize();
-      let settings={
-         url:url,
-         method:method,
-         data:queryString,
-         dataType:"html",
-         success:function(resp){
-            $(calArea).html(resp);
-         }, error:function(jqXHR,errStatus,textError){
-            console.log(jqXHR,errStatus,textError);
-         }, complete:function(){
-            console.log("최종 완료");
-         }
-      }
-      
-      
-      $.ajax(settings)
-      
-   }).submit();
-   
-})
-
+	let $inputs = $(calForm).find(":input[name]");
+	$inputs.each((idx, el)=>{
+		let $el = $(el);
+		let initValue = $el.data("initValue");
+		$el.val(initValue)
+	}).on("change", function(event){
+		//함수의 체인구조 이용, each와 연결되어있음
+		$(this.form).submit();
+	});
+	
+	$(document).on("click", ".control-a",function(){
+		// 디센던트 셀렉터
+		let $el = $(this);
+		$(calForm).find('[name=year]').val($el.data("year"));
+		$(calForm).find('[name=month]').val($el.data("month"));
+		$(calForm).submit();
+	});
+	let $calForm = $(calForm).on("submit", function(){
+		/*$(this)===$calForm*/
+		let url = this.action;
+		let method = $(this).attr("method");
+		let queryString = $(this).serialize();
+		let settings = {
+			url:url,
+			method:method,
+			data:queryString,
+			dataType:"html",
+			success:function(resp){
+				$(calArea).html(resp);
+			}, error:function(jqXHR, errStatus, textError){
+				console.log(jqXHR, errStatus, textError);
+			}, complete:function(){
+				console.log("비동기 요청 처리 최종 완료")
+			}
+		};
+		
+		$.ajax(settings);
+	}).submit();
+});
 
 
 /*document.addEventListener("DOMContentLoaded", ()=>{

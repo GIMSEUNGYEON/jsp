@@ -15,9 +15,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/calendar.css">
-<script type="text/javascript" src="/WebStudy01/src/main/webapp/resources/js/jquery-3.7.1.min.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/app/06/case3/calendarForm.js"></script>
-</head>
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-3.7.1.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/app/06/case3/calendarForm.js"></script></head>
 <body>
 <%
 	Locale locale = request.getLocale();
@@ -55,5 +54,6 @@
 <!--    form의 submit 이벤트는 default action : 동기요청 -->
 
 </body>
+
 </html>
 
