@@ -1,0 +1,58 @@
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>Insert title here</title>
+<style>
+	form{
+		background-color: yellow;
+	}
+</style>
+</head>
+
+<body>
+	<form action="#cPath#/image.do">
+<!-- 	<select name='image' onchange="changeEvent()"> -->
+	<select name='image' onchange="this.form.requestSubmit()">
+			#options#
+		</select>
+	<input type='submit' value='전송'/>
+	</form>
+	<script>
+// 		let selectTag = document.querySelector("[name='image']");
+// 		selectTag.addEventListener('change', function(event){
+// 			   event.target.form.submit();
+// 			});
+	
+		function changeEvent(){
+// 			document.getElementsByTagName("form")[0].submit();
+// 			document.querySelector("form").submit();
+			console.log("이벤트 발생확인")
+
+		}
+		
+		document.forms[0].addEventListener("submit", function(event){
+		    event.preventDefault();
+// 			<img src = "http://localhost/WebStudy01/image.do?image=eagle.jpg" />
+			let imgName = event.target.image.value;
+// 		    let imgTagTxt = `<img src = 'http://localhost/WebStudy01/image.do?image=${imgName}'>`;
+		    let imgTag = document.createElement("img")
+		    imgTag.classList.add("imgArea");
+		   	imgTag.src = `http://localhost/WebStudy01/image.do?image=${imgName}`;
+		    let divTag = document.querySelector("#imageArea");
+// 		    divTag.innerHTML = imgTagTxt;
+
+			document.querySelectorAll("img.imgArea").forEach((img, idx)=>{
+				divTag.removeChild(img)
+				
+			});
+			
+			divTag.appendChild(imgTag);
+			divTag.appendChild
+		    return false;
+		});
+	</script>
+	<div id="imageArea">
+		
+	</div>
+</body>
+</html>

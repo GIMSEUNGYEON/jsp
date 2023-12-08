@@ -14,7 +14,8 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
---><web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee                       http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+-->
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee                       http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
 
   <!-- ======================== Introduction ============================== -->
   <!-- This document defines default values for *all* web applications      -->
@@ -267,12 +268,12 @@
             <param-value>false</param-value>
         </init-param>
         <init-param>
-            <param-name>compilerSourceVM</param-name>
-            <param-value>1.8</param-value>        	
+        	<param-name>compilerSourceVM</param-name>
+        	<param-value>1.8</param-value>
         </init-param>
         <init-param>
-            <param-name>compilerTargetVM</param-name>
-            <param-value>1.8</param-value>        	
+        	<param-name>compilerTargetVM</param-name>
+        	<param-value>1.8</param-value>
         </init-param>
         <load-on-startup>3</load-on-startup>
     </servlet>
