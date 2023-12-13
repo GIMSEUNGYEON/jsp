@@ -8,13 +8,12 @@
 	<a href="<%=request.getContextPath()%>/login/loginForm.jsp">로그인</a>
 	<%
 		}else{
-			out.println(authId+"님 로그인 성공");			
+	%>
+		<%=authId%>
+		<form method="post" id="logoutForm" action="<%=request.getContextPath()%>/login/logOut.do"></form>
+		<a href="javascript:;" data-log-out="#logoutForm">로그아웃</a>		
+	<%
 		}
 	%>
 </main>
-<script>
-// 	console.log(bootstrap); //1은 실행 안됨
-	$(function(){ //페이지가 완성된 후에 로딩되어 실행됨
-		console.log(bootstrap); //2는 실행 가능
-	});
-</script>
+<script src="<%=request.getContextPath()%>/resources/js/app/index.js"></script>

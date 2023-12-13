@@ -54,7 +54,7 @@ public class PropertiesControllerServlet extends HttpServlet {
 			status = 404;
 		}else {
 			req.setAttribute("propertyValue", property.getPropertyValue());
-			
+			req.setAttribute("description", property.getDescription());
 		}
 		
 		return status;

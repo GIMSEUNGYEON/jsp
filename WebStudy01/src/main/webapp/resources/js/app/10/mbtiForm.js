@@ -37,7 +37,17 @@ var fnResolveEntrySet = jsonObj=>{
 	document.querySelector("[name='type']").innerHTML = options;
 	};
 
+var findCookie = (name) => {
+	
+	let matches = document.cookie.match(`${name}=([^;]+)`);
+
+	return matches ? matches[1] : undefined;
+}
+
+const select = document.querySelector("[name='type']")
+
 var fnResolveEntryMap = jsonObj=>{
+	
 	let associativeArray = jsonObj.entryMap;
 	let options = "";
 	for(let propName in associativeArray){
@@ -45,9 +55,21 @@ var fnResolveEntryMap = jsonObj=>{
 		let entryValue = associativeArray[entryKey];
 		options += `<option value="${entryKey}">${entryValue}</option>`
 	}
-	document.querySelector("[name='type']").innerHTML = options;	
+	
+	select.innerHTML = options;
+	
+	//let savedType = findCookie("mbtiCookie");
+	let savedType = select.dataset.initValue;
+	if(savedType){
+		select.value = savedType;
+		select.form.requestSubmit();
+	}
 };
-document.addEventListener("DOMContentLoaded", event=>{
+
+
+
+var fnOptionLoad = (event)=>{
+	
 	cPath = document.body.dataset.contextPath;
 	// 윈도우 객체에 바인딩한 전역변수
 	fetch(`${cPath}/10/mbti`,{
@@ -64,43 +86,46 @@ document.addEventListener("DOMContentLoaded", event=>{
 		console.error(err);
 	});
 	
-	mbtiForm.addEventListener("submit", event=>{
-		if(event.target.tagName !== "FORM")	return false;
-		let form = event.target;
-		let formData = new FormData(form);
-		let urlSearchParams = new URLSearchParams(formData);
-		
-		event.preventDefault();
-		
-		let url = `${event.target.action}?${urlSearchParams}`
-		
-		fetch(url,{
-			headers:{
-				"Accept":"text/html"
+};
+
+var fnMbtiLoad = (event)=>{
+	if(event.target.tagName !== "FORM")	return false;
+	let form = event.target;
+	let formData = new FormData(form);
+	let urlSearchParams = new URLSearchParams(formData);
+	
+	event.preventDefault();
+	
+	let url = `${event.target.action}?${urlSearchParams}`
+	
+	fetch(url,{
+		headers:{
+			"Accept":"text/html"
+		}, cache:"no-cache" //캐시가 있어도 사용하지 않기
+		}).then((resp)=>{
+			if(resp.ok){
+				return resp.text();	
+			}else{
+				throw new Error(`상태코드 ${resp.status} 수신`, {cause:resp})	
 			}
-			}).then((resp)=>{
-				if(resp.ok){
-					return resp.text();	
-				}else{
-					throw new Error(`상태코드 ${resp.status} 수신`, {cause:resp})	
-				}
-			}).then(html=>{
-				if(!window['resultArea']){				
-					div = document.createElement("div");
-					div.setAttribute("id", "resultArea");
-					form.after(div);
-				}
-				let parser = new DOMParser();
-				
-				let newDoc = parser.parseFromString(html,'text/html');
-				let preTag = newDoc.body.children[0]
-				resultArea.replaceChildren()
-				resultArea.appendChild(preTag)
-			}).catch((err)=>{
-				console.error(err);
-			});
-		return false;
-	});
-});
+		}).then(html=>{
+			if(!window['resultArea']){				
+				div = document.createElement("div");
+				div.setAttribute("id", "resultArea");
+				form.after(div);
+			}
+			let parser = new DOMParser();
+			
+			let newDoc = parser.parseFromString(html,'text/html');
+			let preTag = newDoc.body.children[0]
+			resultArea.replaceChildren()
+			resultArea.appendChild(preTag)
+		}).catch((err)=>{
+			console.error(err);
+		});
+	return false;
+};
 
+document.addEventListener("DOMContentLoaded", fnOptionLoad);
 
+document.addEventListener("submit", fnMbtiLoad);

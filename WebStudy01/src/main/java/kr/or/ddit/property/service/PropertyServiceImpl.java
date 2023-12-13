@@ -6,12 +6,15 @@ import java.util.stream.Collectors;
 
 import kr.or.ddit.property.dao.InMemoryPropertyDAOImpl;
 import kr.or.ddit.property.dao.PropertyDAO;
+import kr.or.ddit.property.dao.PropertyDAOImpl;
 import kr.or.ddit.vo.PropertyVO;
 
 public class PropertyServiceImpl implements PropertyService {
 	
-	private PropertyDAO dao = new InMemoryPropertyDAOImpl("/kr/or/ddit/message/message-common_en.properties");
-	  
+	//의존 관계를 형성하기 위해 의존 객체를 직접 생성하는 방식(결합력이 가장 높은 구조)
+//	private PropertyDAO dao = new InMemoryPropertyDAOImpl("/kr/or/ddit/message/message-common_en.properties");
+	private PropertyDAO dao = new PropertyDAOImpl();
+	
 	@Override
 	public boolean createProperty(PropertyVO newProp) {
 		int rowcnt = dao.insertProperty(newProp);

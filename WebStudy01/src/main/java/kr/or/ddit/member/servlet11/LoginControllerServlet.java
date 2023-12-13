@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,19 +34,37 @@ public class LoginControllerServlet extends HttpServlet {
 
 		boolean valid = validate(inputData);
 		
+		String logicalViewName = null;
+		String message = null;
+		HttpSession session = req.getSession(); // 연관된 세션이 없으면 새로운 세션을 자동으로 생성함, false 값을 주는것으로 생성을 막을 수 있음
 		if(valid) {
-			String logicalViewName = null;
 			if(service.authenticate(inputData)) {
-				logicalViewName = "/";
-				HttpSession session = req.getSession();
-				session.setAttribute("authId", inputData.getMemId());
+				if(session.isNew()) {
+					message = "브라우저의 설정 오류, 쿠키 정보를 확인하세요";
+					logicalViewName = "/login/loginForm.jsp";					
+				}else {
+					logicalViewName = "/";
+					session.setAttribute("authId", inputData.getMemId());		
+					int maxAge = Optional.ofNullable(req.getParameter("rememberMe"))
+										.map(rv->60*60*24*3)
+										.orElse(0);
+					
+					Cookie rememberMeCookie = new Cookie("rememberMe", inputData.getMemId());
+					rememberMeCookie.setMaxAge(maxAge);
+					rememberMeCookie.setPath(req.getContextPath());
+					resp.addCookie(rememberMeCookie);
+				}
 			}else {
+				message = "아이디나 비밀번호 오류";
 				logicalViewName = "/login/loginForm.jsp";
 			}
-			resp.sendRedirect(req.getContextPath() + logicalViewName);
 		}else {
-			resp.sendError(400);
+//			resp.sendError(400);
+			message = "아이디나 비밀번호 누락";
+			logicalViewName = "/login/loginForm.jsp";
 		}
+		session.setAttribute("message", message);
+		resp.sendRedirect(req.getContextPath() + logicalViewName);
 	}
 	
 	public boolean validate(MemberVO inputData) {

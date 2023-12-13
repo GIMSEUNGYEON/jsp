@@ -3,7 +3,7 @@ package kr.or.ddit.vo;
 import java.io.Serializable;
 
 /**
- * .properties 파일이나 Database_properties 분류를 통해 관리되고 있는 property 한건의 정보를 캡슐화할 VO(Java Bean)
+ * .properties 파일이나 Database_properties 뷰를 통해 관리되고 있는 property 한건의 정보를 캡슐화할 VO(Java Bean)
  */
 public class PropertyVO implements Serializable {
 	private String propertyName;

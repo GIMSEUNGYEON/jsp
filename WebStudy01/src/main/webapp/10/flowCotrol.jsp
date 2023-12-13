@@ -14,6 +14,9 @@
 		1. 요청 분기(request dispatch) : 원본 요청을 가지고 분기하는 서버사이드 이동 구조.(RequestDispatcher 사용)
 			1) forward : request와 response 처리자가 분리되는 구조.(Model2구조에서 주로 활용)
 			2) include : 최종 응답 형태가 2개 이상의 jsp 파일이 한개의 페이지를 구성하는 형태로 응답 전송(A+B, 페이지 모듈화 구조.)
+				**inclued 시점과 대상의 차이에 따른 분류
+				- 정적 내포 : jsp 파일에 대해 서블릿 소스가 파싱되는 시점에, 소스파일 자체를 내포함.
+				- 동적 내포 : runtime(컴파일된 이후)에 실행 결과를 내포함.
 			<%
 				request.setAttribute("sampleAttr", "도착지인 B쪽으로 전달할 모델");
 				String path = "/02/standard.jsp"; // server side 경로

@@ -1,3 +1,5 @@
+<%@page import="org.apache.commons.lang3.StringUtils"%>
+<%@page import="java.util.Optional"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!doctype html>
@@ -101,6 +103,17 @@
     
     <!-- Custom styles for this template -->
     <link href="sign-in.css" rel="stylesheet">
+    <%
+    	String message = (String)session.getAttribute("message");
+    	if(StringUtils.isNotBlank(message)){
+    %>
+    <script>
+    	alert("<%=message%>");
+    </script>
+    <%		    		
+   		session.removeAttribute("message");
+    	}
+    %>
   </head>
   <body class="d-flex align-items-center py-4 bg-body-tertiary">
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -170,7 +183,7 @@
     </div>
 
     <div class="form-check text-start my-3">
-      <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
+      <input class="form-check-input" type="checkbox" name="rememberMe" value="remember-me" id="flexCheckDefault">
       <label class="form-check-label" for="flexCheckDefault">
         Remember me
       </label>

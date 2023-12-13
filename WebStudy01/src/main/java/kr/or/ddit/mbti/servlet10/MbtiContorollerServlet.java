@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -11,6 +12,7 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,6 +61,19 @@ public class MbtiContorollerServlet extends HttpServlet {
 		
 		try {
 			MbtiVO model = service.retrieveMbti(type);			
+			int maxAge =Optional.of(req.getParameter("remember"))
+								.map(rv->60*60*24*5)
+								.orElse(0);
+			
+			Cookie remember = new Cookie("mbtiCookie", type);
+			remember.setMaxAge(maxAge);
+			remember.setPath(req.getContextPath());
+			
+			resp.addCookie(remember);
+			resp.setHeader("Cache-Control", "no-cache");
+			resp.setHeader("Cache-Control", "no-store");
+			//캐시를 아예 저장하지 않기
+			
 			String view = model.getLogicalPath();
 			req.getRequestDispatcher(view).forward(req, resp);
 		}catch (MbtiNotFoundException e) {

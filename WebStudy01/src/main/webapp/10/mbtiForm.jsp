@@ -1,3 +1,8 @@
+<%@page import="java.util.Objects"%>
+<%@page import="kr.or.ddit.utils.CookieUtils"%>
+<%@page import="java.util.Arrays"%>
+<%@page import="java.util.stream.Stream"%>
+<%@page import="java.util.Optional"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -8,9 +13,13 @@
     <title>MBTI</title>
 </head>
 <body data-context-path="<%=request.getContextPath()%>">
-        
-    <form id="mbtiForm" action="<%=request.getContextPath()%>/10/mbti" onchange="this.requestSubmit();">
-        <select name="type">
+      <%
+		String mbtiCookieValue = CookieUtils.findCookieValue(request, "mbtiCookie");
+		
+		
+      %>
+    <form action="<%=request.getContextPath()%>/10/mbti" onchange="this.requestSubmit();">
+        <select name="type" data-init-value="<%=Objects.toString(mbtiCookieValue, "")%>">
 <!--             <option value="istj">1. ISTJ 소금형</option> -->
 <!--             <option value="isfj">2. ISFJ 권력형</option> -->
 <!--             <option value="infj">3. INFJ 예언자형</option> -->
@@ -28,6 +37,8 @@
 <!--             <option value="enfj">15. ENFJ 언변능숙형</option> -->
 <!--             <option value="entj">16. ENTJ 지도자형</option> -->
         </select>
+    <input class="form-check-input" type="hidden" name="remember" value="remember" id="flexCheckDefault">
+        
     </form>
     <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/app/10/mbtiForm.js">
     				

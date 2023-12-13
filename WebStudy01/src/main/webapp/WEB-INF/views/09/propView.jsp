@@ -39,6 +39,7 @@
 	      <div class="modal-body">
 	       <input type="text" name="propertyName" class="form-control" placeholder="property name" readonly/>
 	       <input type="text" name="propertyValue" class="form-control" placeholder="property value"/>
+	       <input type="text" name="description" class="form-control" placeholder="description"/>
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

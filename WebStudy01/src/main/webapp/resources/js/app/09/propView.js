@@ -64,8 +64,10 @@ var fnReadProperty = (event)=>{
 		}
 	},(jsonObj)=>{
 		let propertyValue = jsonObj.propertyValue;
+		let description = jsonObj.description;
 		updateForm.propertyName.value = propertyName;
 		updateForm.propertyValue.value = propertyValue;
+		updateForm.description.value = description;
 	})
 	document.querySelector("li.active")?.classList.toggle("active");
 	propertyNameTag.parentElement.classList.toggle("active");
@@ -77,7 +79,8 @@ var fnAddProperty = (event)=>{
 	let form = event.target;
 	let data = {
 		propertyName:form.propertyName.value,
-		propertyValue:form.propertyValue.value
+		propertyValue:form.propertyValue.value,
+		description:form.description.value
 	};
 	let body = JSON.stringify(data);
 	fnCommFetch(baseURI,{
@@ -121,7 +124,8 @@ var fnModifyProperty = (event)=>{
 	let form = event.target;
 	let data = {
 		propertyName:form.propertyName.value,
-		propertyValue:form.propertyValue.value
+		propertyValue:form.propertyValue.value,
+		description:form.description.value
 	};
 	let body = JSON.stringify(data);
 	fnCommFetch(`${baseURI}/${data.propertyName}`,{
