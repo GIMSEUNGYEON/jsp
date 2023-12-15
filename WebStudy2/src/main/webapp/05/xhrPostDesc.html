@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../resources/js/jquery-3.7.1.min.js">
+    </script>
+</head>
+<body>
+    <button data-role="xhr">XHR</button>
+    <button data-role="ajax">AJAX</button>
+    <button data-role="fetch">FETCH</button>
+    
+    <button onclick="innerBody.innerHTML='';">CLEAR</button>
+<form id="testForm" action="formDataProcess.do" method="post" enctype="application/x-www-form-urlencoded">
+	<input type="text" name="param1" placeholder="param1" />
+	<input type="text" name="param2" placeholder="param2" />
+	<button type="submit">동기 전송</button>
+</form>
+    <span id="loadingArea" style="display:none;">
+        <img src="../resources/images/loading.gif"/>
+
+    </span>
+    <div id="innerBody">
+
+
+    </div>
+    <script>
+
+    	
+        let fnOwner = {
+            fn_xhr : function(){
+            	let xhr = new XMLHttpRequest(); //UNSENT
+            	xhr.onreadystatechange = ()=>{
+//             		this // = window
+// 					let xhr = event.target;
+					if(event.target.readyState = XMLHttpRequest.DONE){
+                        if(xhr.status == 200){
+                            innerBody.innerHTML = xhr.responseText;
+                        }
+					}
+            	};
+            	
+            	xhr.open(testForm.method, testForm.action); //OPENED
+            	xhr.setRequestHeader("Content-Type", testForm.enctype);
+            	xhr.setRequestHeader("Accept", "text/html");
+            	let formData = new FormData(testForm);
+            	let body = new URLSearchParams(formData);
+            	
+            	xhr.send(body); //HEADER-RECEIVE -> LOADING ->DONE
+            	
+            },
+            fn_ajax : function(){
+            	let body = $(testForm).serialize();
+            	let settings = {
+		    		url:testForm.action,
+		    		method:testForm.method,
+		    		data:body,
+		    		dataType:"html",
+		    		success:function(html){
+		    			console.log("ajax 성공!")
+		    			console.log(html)
+		    			innerBody.innerHTML = html;
+    				},
+    			complete:function(resp){
+    			
+    			}
+    		}
+            $.ajax(settings)
+            },
+            fn_fetch : function(){
+                let formData = new FormData(testForm);
+            	let body = new URLSearchParams(formData);
+                fetch(testForm.action,{
+                    method:testForm.method,
+                    headers:{
+                        "Content-Type":testForm.enctype, 
+                    },
+                    body:body
+                }).then(resp=>{
+                    if(resp.ok){
+                        return resp.text();
+                    }
+                })
+                    .then((html)=>{
+                        innerBody.innerHTML=html;
+                    });
+            }
+        }
+
+        document.querySelectorAll("[data-role]").forEach((el, idx)=>{
+            el.addEventListener("click", (event)=>{
+//                 console.log(event.target.dataset.role)
+//                 console.log(event.target.dataset['role'])
+
+                let role = event.target.dataset['role']
+                fnOwner[`fn_${role}`]();
+            });
+            
+        });
+        
+
+    </script>
+</body>
+</html>

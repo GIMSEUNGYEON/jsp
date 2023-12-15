@@ -2,6 +2,8 @@ package kr.or.ddit.property.servlet09;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -53,15 +55,15 @@ public class PropertiesControllerServlet extends HttpServlet {
 		if(property==null) {
 			status = 404;
 		}else {
-			req.setAttribute("propertyValue", property.getPropertyValue());
-			req.setAttribute("description", property.getDescription());
+			req.setAttribute("property", property);
 		}
 		
 		return status;
 	}
 	
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	private String getPropertyName(HttpServletRequest req) throws UnsupportedEncodingException {
+		
+		String propertyName = null;
 		String requestURI = req.getRequestURI(); //ex) /WebStudy01/09/property, /WebStudy01/09/property/code
 		
 		String reqex = "\\S*/09/property/(\\S+)";
@@ -73,10 +75,24 @@ public class PropertiesControllerServlet extends HttpServlet {
 		Pattern ptrn = Pattern.compile(reqex);
 		Matcher matcher = ptrn.matcher(requestURI);
 		
+		if(matcher.find()) {
+		
+			propertyName = URLDecoder.decode(matcher.group(1), "utf-8");
+		}
+		
+		return propertyName;
+		
+	}
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		
+		String propertyName = getPropertyName(req);
+		
 		int status;
 		
-		if(matcher.find()) {
-			String propertyName = matcher.group(1);
+		if(propertyName != null) {
 			status = single(propertyName,req);			
 		}else {
 			status = list(req);			
@@ -122,15 +138,9 @@ public class PropertiesControllerServlet extends HttpServlet {
 	
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String requestURI = req.getRequestURI(); //ex) /WebStudy01/09/property, /WebStudy01/09/property/code
+		String propertyName = getPropertyName(req);
 		
-		String reqex = "\\S*/09/property/(\\S+)";
-
-		Pattern ptrn = Pattern.compile(reqex);
-		Matcher matcher = ptrn.matcher(requestURI);
-		
-		if(matcher.find()) {
-			String propertyName = matcher.group(1);
+		if(propertyName != null) {
 			boolean success = service.deleteProperty(propertyName);
 			
 			String view = "/jsonView.do";

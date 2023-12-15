@@ -2,6 +2,7 @@ package kr.or.ddit.property.dao;
 
 import java.sql.Statement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,10 +16,26 @@ public class PropertyDAOImpl implements PropertyDAO {
 	
 	@Override
 	public int insertProperty(PropertyVO newProp) {
+		StringBuffer sql = new StringBuffer();
 		
-		return 0;
-	}
+		sql.append("INSERT INTO TB_PROPERTIES ");
+		sql.append(" (PROPERTY_NAME, PROPERTY_VALUE, DESCRIPTION) ");
+		sql.append(" VALUES( ? , ? , ? ) ");
+		try (
+			 Connection conn = ConnectionFactory.getConnection();
+			 PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+		) {	
+			pstmt.setString(1, newProp.getPropertyName());
+			pstmt.setString(2, newProp.getPropertyValue());
+			pstmt.setString(3, newProp.getDescription());
+			
+			return pstmt.executeUpdate();
 
+			
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 	@Override
 	public List<PropertyVO> selectProperties() {
 		
@@ -31,7 +48,7 @@ public class PropertyDAOImpl implements PropertyDAO {
 		
 		try(
 			Connection conn = ConnectionFactory.getConnection();
-			Statement stmt = conn.createStatement();	
+			Statement stmt = conn.createStatement();
 		){
 			ResultSet rs = stmt.executeQuery(sql.toString());
 			
@@ -81,17 +98,20 @@ public class PropertyDAOImpl implements PropertyDAO {
 		StringBuffer sql = new StringBuffer();
 		sql.append(" UPDATE TB_PROPERTIES    ");
 		sql.append(" Set                     ");
-		sql.append(" 	PROPERTY_VALUE = '"+modifyProp.getPropertyValue()+"', ");
-		sql.append(" 	DESCRIPTION = '"+modifyProp.getDescription()+"'     ");
+		sql.append(" 	PROPERTY_VALUE = ? , ");
+		sql.append(" 	DESCRIPTION = ?     ");
 		sql.append(" WHERE                   ");
-		sql.append(" 	PROPERTY_NAME = '"+modifyProp.getPropertyName()+"'   ");;
+		sql.append(" 	PROPERTY_NAME = ?   ");;
 			
 		try (
 			Connection conn = ConnectionFactory.getConnection(); 
-			Statement stmt = conn.createStatement();
+			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 		) {
-			
-			return stmt.executeUpdate(sql.toString());
+			pstmt.setString(1, modifyProp.getPropertyValue());
+			pstmt.setString(2, modifyProp.getDescription());
+			pstmt.setString(3, modifyProp.getPropertyName()); // ab' OR '1'='1
+
+			return pstmt.executeUpdate();
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -100,8 +120,21 @@ public class PropertyDAOImpl implements PropertyDAO {
 
 	@Override
 	public int deleteProperty(String propertyName) {
-		
-		return 0;
-	}
+		StringBuffer sql = new StringBuffer();
 
+		sql.append(" DELETE FROM TB_PROPERTIES ");
+		sql.append(" WHERE PROPERTY_NAME = ? "); // ? : 쿼리 파라미터
+			
+		try (
+			Connection conn = ConnectionFactory.getConnection(); 
+			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+		) {
+			pstmt.setString(1, propertyName);
+
+			return pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

@@ -20,7 +20,10 @@
 	<div class="col-auto">
 	<label for="propertyValue" class="form-label">Property Value</label>
 	<input type="text" name="propertyValue" id="propertyValue" placeholder="propertyValue" class="form-control">
-			
+	</div>
+	<div class="col-auto">
+	<label for="description" class="form-label">Description</label>
+	<input type="text" name="description" id="description" placeholder="description" class="form-control">
 	</div>
 	<div class="col-auto">
 		<button type="submit" class="btn btn-primary">신규 등록</button>
