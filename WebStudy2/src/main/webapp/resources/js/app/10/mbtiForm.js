@@ -66,8 +66,6 @@ var fnResolveEntryMap = jsonObj=>{
 	}
 };
 
-
-
 var fnOptionLoad = (event)=>{
 	
 	cPath = document.body.dataset.contextPath;

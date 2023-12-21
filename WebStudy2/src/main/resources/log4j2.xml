@@ -9,13 +9,13 @@
 	<Appenders>
 		<Console name="Console" target="SYSTEM_OUT">
 			<PatternLayout
-				pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+				pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{1.} - %msg%n" />
 		</Console>
 	</Appenders>
 	<Loggers>		
+		<Logger name="kr.or.ddit" level="info"></Logger>
 		<Logger name="jdbc.sqltiming" level="debug"></Logger>
 		<Logger name="jdbc.resultsettable" level="debug"></Logger>
-		<Logger name="kr.or.ddit" level="warn"></Logger>
 		<Logger name="kr.or.ddit.mbti" level="info"></Logger>
 		<Logger name="kr.or.ddit.property" level="debug"></Logger>
 		<Root level="error">
