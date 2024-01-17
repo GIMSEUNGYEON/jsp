@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.member.dao.AddressDAO">
+
+	<select id="selectOneAdress" resultType="AddressVO" parameterType="int">
+			SELECT
+			    ADRS_NO,
+			    ADRS_OWNER,
+			    ADRS_NAME,
+			    ADRS_HP,
+			    ADRS_ZIP,
+			    ADRS_ADD1,
+			    ADRS_ADD2
+			FROM
+			    TB_ADDRESS
+			WHERE
+	    	    ADRS_NO = #{adrsNo}
+			    		
+	</select>
+	
+	<resultMap id="addressResultMap" type="AddressVO">
+    	<result property="adrsNo" column="ADRS_NO"/>
+    	<result property="adrsOwner" column="ADRS_OWNER"/>
+    	<result property="adrsName" column="ADRS_NAME"/>
+	    <result property="adrsHp" column="ADRS_HP"/>
+	    <result property="adrsZip" column="ADRS_ZIP"/>
+	    <result property="adrsAdd1" column="ADRS_ADD1"/>
+	    <result property="adrsAdd2" column="ADRS_ADD2"/>
+	</resultMap>
+	
+	<select id="selectAllAdress" resultMap="addressResultMap">
+			SELECT
+			    ADRS_NO,
+			    ADRS_OWNER,
+			    ADRS_NAME,
+			    ADRS_HP,
+			    ADRS_ZIP,
+			    ADRS_ADD1,
+			    ADRS_ADD2
+			FROM
+			    TB_ADDRESS
+			WHERE 
+				ADRS_OWNER = #{adrsOwner}
+	</select>
+	
+	<insert id="insertAddress" parameterType="AddressVO">
+		INSERT INTO tb_address (
+			ADRS_NO,
+			ADRS_OWNER,
+			ADRS_NAME,
+			ADRS_HP,
+			ADRS_ZIP,
+			ADRS_ADD1,
+			ADRS_ADD2
+		) VALUES (
+			SEQ_ADDRESS.NEXTVAL
+			, #{adrsOwner}
+			, #{adrsName}
+			, #{adrsHp}
+			, #{adrsZip}
+			, #{adrsAdd1}
+			, #{adrsAdd2}
+		)
+	</insert>
+		
+	<update id="updateAddress" parameterType="AddressVO">
+		UPDATE 
+			TB_ADDRESS
+		SET
+		    ADRS_NAME = #{adrsName}
+		    , ADRS_HP = #{adrsHp}
+		    , ADRS_ZIP = #{adrsZip}
+		    , ADRS_ADD1 = #{adrsAdd1}
+		    , ADRS_ADD2 = #{adrsAdd2}
+		WHERE
+    	    ADRS_NO = #{adrsNo}
+	    AND 
+	    	ADRS_OWNER = #{adrsOwner}
+	</update>
+	
+	<delete id="deleteAddress" parameterType="int">
+		DELETE FROM 
+			TB_ADDRESS
+		WHERE
+    	    ADRS_NO = #{adrsNo}
+
+	</delete>
+</mapper>
