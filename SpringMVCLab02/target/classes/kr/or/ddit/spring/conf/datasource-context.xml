@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+<!-- 	<properties resource="kr/or/ddit/db/dbInfo.properties"/> -->
+		<!-- 데이터베이스 연결정보 -->
+		<util:properties id="dbInfo" location="classpath:kr/or/ddit/db/dbInfo.properties" />
+		<!-- JDBC Connection 생성, Connection Pooling -->
+		<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" 
+			p:driverClassName="#{dbInfo.driverClassName}"
+			p:url="#{dbInfo.url}"
+			p:username="#{dbInfo.user}"
+			p:password="#{dbInfo.password}"
+			p:initialSize="#{dbInfo.initialSize}"
+			p:maxIdle="#{dbInfo.maxIdle}"
+			p:maxTotal="#{dbInfo.maxTotal}"
+			p:maxWaitMillis="#{dbInfo.maxWait}"
+		/>
+		<!-- 플랫폼 기반의 트랜잭션 관리자 -->
+		<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+			p:dataSource-ref="dataSource"		
+		/>
+
+<!-- 		<typeAliases> -->
+<!-- 			<package name="kr.or.ddit.vo" /> -->
+<!-- 		</typeAliases> -->
+<!-- 		<dataSource type="POOLED"> -->
+<!-- 			<property name="driver" value="${driverClassName}" /> -->
+<!-- 			<property name="url" value="${url}" /> -->
+<!-- 			<property name="username" value="${user}" /> -->
+<!-- 			<property name="password" value="${password}" /> -->
+<!-- 			<property name="poolMaximumActiveConnections" value="${maxTotal}" /> -->
+<!-- 			<property name="poolMaximumIdleConnections" value="${maxIdle}" /> -->
+<!-- 			<property name="poolTimeToWait" value="${maxWait}" /> -->
+<!-- 		</dataSource> -->
+</beans>

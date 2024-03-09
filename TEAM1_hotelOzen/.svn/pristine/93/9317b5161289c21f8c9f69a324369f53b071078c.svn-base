@@ -1,0 +1,51 @@
+package kr.or.ddit;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class SimpleTest {
+	public static void main(String[] args) {
+		List<String> lines = new ArrayList<>();
+		
+		for(int i=0; i<10; i++) {
+			lines.add("테스트"+(i+1));
+		}
+		
+		if(lines.contains("테스트3")) {
+			System.out.println("있습니다");
+		}else {
+			System.out.println("없습니다");
+			
+		}
+		
+		List<SimpleVO> simpleVOList = new ArrayList<>();
+		
+		SimpleVO simpleVO = null;
+		
+		for (int i=0; i<10; i++) {
+			simpleVO = new SimpleVO();
+			simpleVO.setName("홍길동"+(i+1));
+			simpleVO.setAddress("대전"+(i+1));
+			simpleVO.setAge((10+1));
+			simpleVOList.add(simpleVO);
+			System.out.println(simpleVO.getName());
+			System.out.println(simpleVO.getAddress());
+		}
+		
+		SimpleVO simpleVO2 = new SimpleVO();
+		simpleVO2.setName("홍길동3");
+		simpleVO2.setAddress("대전3");
+		
+		System.out.println(simpleVO2.getName());
+		System.out.println(simpleVO2.getAddress());
+		System.out.println("contains : " + simpleVOList.contains(simpleVO2));
+	
+		System.out.println(simpleVO);
+		System.out.println(simpleVOList);
+		
+		
+		String name = "홍길동";
+//		String name = null;
+		System.out.println("홍길동".equals(name));
+	}
+}

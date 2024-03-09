@@ -11,6 +11,8 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 
+<!-- 	핸들러 매핑 / 핸들러 어댑터 / 뷰 리절브 / 뷰 / 인터셉터 /  -->
+
 	<mvc:annotation-driven validator="validator"/>
 	
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" 
@@ -32,16 +34,20 @@
 	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" 
 		p:objectMapper-ref="jackson2ObjectMapper"
 	/>
-	<mvc:view-resolvers>
-		<mvc:bean-name>
-			<ref bean="jsonView"/>
-		</mvc:bean-name>
-		<mvc:jsp prefix="/WEB-INF/views/" suffix=".jsp"/>
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"
+		p:order="1"
+	/>
+	<mvc:tiles-configurer>
+		<mvc:definitions location="/WEB-INF/tiles/ksy-tiles.xml"/>
+	</mvc:tiles-configurer>
+	<mvc:view-resolvers order="2">
 		<mvc:content-negotiation>
 			<mvc:default-views>
 				<ref bean="jsonView"/>
 			</mvc:default-views>
 		</mvc:content-negotiation>
+		<mvc:tiles/>
+		<mvc:jsp prefix="/WEB-INF/views/" suffix=".jsp"/>
 	</mvc:view-resolvers>
 	
 	<mvc:resources location="/resources/" mapping="/resources/**" cache-period="0" />

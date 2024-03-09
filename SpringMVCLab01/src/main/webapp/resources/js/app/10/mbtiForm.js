@@ -84,10 +84,10 @@ var fnOptionLoad = (event)=>{
 };
 
 var fnMbtiLoad = (event)=>{
+	event.preventDefault();
 	if(event.target.tagName !== "FORM") return false;
 	
 	let form = event.target;
-	event.preventDefault();
 	let formData = new FormData(form);
 	let urlSearchParams = new URLSearchParams(formData);
 	

@@ -10,7 +10,8 @@
 		<tr>
 			<th>상품명</th>
 			<td><input type="text" name="prodName"  
-				value="${prod.prodName}" class="form-control" /><span
+				value="${prod.prodName}" class="form-control" />
+				<span
 				class="text-danger">${errors.prodName}</span></td>
 		</tr>
 		<tr>

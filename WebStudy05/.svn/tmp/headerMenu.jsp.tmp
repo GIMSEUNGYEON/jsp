@@ -1,0 +1,21 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<<<<<<< .mine
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
+||||||| .r390417
+=======
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>    
+>>>>>>> .r391011
+<ul>
+	<li>
+		<a href="javascript:;" data-go-link="/">INDEX</a>
+	</li>
+	<li>
+		<a href="javascript:;" data-go-link="/dummy">DUMMY</a>
+	</li>
+	<security:authorize url="/notice/board" method="get">
+		<li>
+			<a href="javascript:;" data-go-link="/notice/board">게시글 목록</a>
+		</li>
+	</security:authorize>
+</ul>

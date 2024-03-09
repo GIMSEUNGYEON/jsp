@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <a href="javascript:;" data-go-link="/buyer/buyerInsert.do">신규상품 등록</a>
-<
+
 <table class="table table-bordered">
 	<thead>
 		<tr>

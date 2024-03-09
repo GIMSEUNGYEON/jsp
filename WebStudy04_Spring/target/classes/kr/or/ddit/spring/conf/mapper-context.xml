@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd">
+	
+		<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" 
+			p:dataSource-ref="dataSource"
+			p:configLocation="classpath:kr/or/ddit/mybatis/Configuration.xml"
+			p:mapperLocations="classpath:kr/or/ddit/mybatis/mappers/*.xml"
+			p:typeAliasesPackage="kr.or.ddit.vo"
+		/>
+
+		<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"
+			c:sqlSessionFactory-ref="sqlSessionFactory"
+		/> 
+		<!-- mapperproxy를 위한 설정, mapper 어노테이션을 이용하여 프록시를 생성함 프록시를 직접 주입할 수 있는 형태가 됨 -->
+		<!-- base package 내의 모든 @Mapper 인터페이스들을 대상으로 mapper proxy를 생성하고 빈으로 등록하기 위한 스캐너 설정. -->
+		<mybatis-spring:scan base-package="kr.or.ddit.**.dao"
+			annotation="org.apache.ibatis.annotations.Mapper"
+			factory-ref="sqlSessionFactory"
+			template-ref="sqlSession"
+		/>
+</beans>

@@ -26,7 +26,7 @@ public class ValidateUtils {
 		        .configure()
 		        .messageInterpolator(
 		                new ResourceBundleMessageInterpolator(
-		                        new PlatformResourceBundleLocator( "kr.or.ddit.message.ErrorMessages" )
+		                        new PlatformResourceBundleLocator("kr.or.ddit.message.ErrorMessages" )
 		                )
 		        )
 		        .buildValidatorFactory()

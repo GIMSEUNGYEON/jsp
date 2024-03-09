@@ -56,7 +56,6 @@
             INNER JOIN SUBJECT ON CLASS.SUB_CD = SUBJECT.SUB_CD
 		WHERE 
 			CLASS.SUB_CD = #{subCd}
-		
 	</select>
 	
 	<resultMap id="studentMap" type="hashmap" >	

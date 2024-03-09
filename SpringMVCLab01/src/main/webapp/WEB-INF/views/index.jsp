@@ -57,7 +57,7 @@
 		@RequestMapping(@GET[POST]Mapping)으로 요청과 핸들러 메소드 연결.
 			- url, method, header..
 	3. 핸들러 메소드 내에서 model, view에 대한 정보 결정.
-		: 모든 해늗ㄹ러는 POJO로 구현되므로, 시그니처에 제한이 없음.
+		: 모든 핸들러는 POJO로 구현되므로, 시그니처에 제한이 없음.
 		- reqeust에 포함된 모든 정보는 핸들러 메소드를 구현시 메소드 아규먼트로 수신이 가능함.
 		 @RequestHeader, @CookieValue, @RequestAttribute 등으로 수신할 수 있음. 
 		- 생성된 모델을 뷰로 전달하는 방법

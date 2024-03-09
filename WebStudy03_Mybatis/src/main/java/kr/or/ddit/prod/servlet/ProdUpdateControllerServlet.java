@@ -22,7 +22,6 @@ import kr.or.ddit.validate.InsertGroup;
 import kr.or.ddit.validate.UpdateGroup;
 import kr.or.ddit.vo.ProdVO;
 
-@WebServlet("/prod/prodUpdate.do")
 public class ProdUpdateControllerServlet extends HttpServlet {
 
 	private ProdService service = new ProdServiceImpl();

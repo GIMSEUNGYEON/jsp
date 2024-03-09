@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans
+	xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.7.xsd">
+	
+	<beans:bean
+		class="org.springframework.security.crypto.password.NoOpPasswordEncoder"
+		id="passwordEncoder"></beans:bean>
+		
+	<beans:bean id="authenticationSuccessHandler" class="kr.or.ddit.security.handler.CustomAuthenticationSuccessHandler" 
+		p:defaultTargetUrl="/"
+		p:alwaysUseDefaultTargetUrl="false"
+	/>
+<!-- 	false면 세이브드 리퀘스트를 사용함 -->
+	
+	<beans:bean 
+		class="kr.or.ddit.security.handler.CustomLogoutSuccessHandler"
+		id="logoutSuccessHandler"
+		p:defaultTargetUrl="/"	
+	/>
+		
+	<authentication-manager>
+		<authentication-provider
+			user-service-ref="userDetailService">
+			<!-- <user-service> -->
+			<!-- <user name="a001" password="java" authorities="ROLE_USER"/> -->
+			<!-- <user name="b001" password="java" authorities="ROLE_USER"/> -->
+			<!-- <user name="c001" password="java" authorities="ROLE_USER,ROLE_ADMIN"/> -->
+			<!-- 멤버의 레코드 하나 name 이 프라이머리키 password가 비밀번호 authorities 권한 -->
+			<!-- </user-service> -->
+			<!-- user service는 dao와 유사한 역할 -->
+			<password-encoder ref="passwordEncoder" />
+		</authentication-provider>
+	</authentication-manager>
+	<!-- authentication -->
+
+	<http pattern="/resources/**" security="none" />
+
+	<http auto-config="true">
+		<form-login 
+			login-page="/myLogin"
+			login-processing-url="/myLogin" 
+			authentication-success-handler-ref="authenticationSuccessHandler"
+		/>
+		<!-- default-target-url="/"
+		always-use-default-target="false" -->
+			
+		<logout 
+			logout-url="/logout" 
+			invalidate-session="false"
+			success-handler-ref="logoutSuccessHandler" 
+		/>
+<!-- 			logout-success-url="/"  -->
+		
+		<csrf disabled="true" />
+		<intercept-url pattern="/index.do" access="permitAll" />
+		<intercept-url pattern="/myLogin" access="permitAll" />
+		<intercept-url pattern="/*/board/**" method="GET"
+			access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/*/board/**"
+			access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/dummy" access="hasAuthority('ROLE_ADMIN')" />
+		<intercept-url pattern="/**" access="isAuthenticated()" />
+	</http>
+	<!-- authorization -->
+
+</beans:beans>

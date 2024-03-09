@@ -61,7 +61,7 @@ public class MbtiContorollerServlet extends HttpServlet {
 		
 		try {
 			MbtiVO model = service.retrieveMbti(type);			
-			int maxAge =Optional.of(req.getParameter("remember"))
+			int maxAge = Optional.of(req.getParameter("remember"))
 								.map(rv->60*60*24*5)
 								.orElse(0);
 			
